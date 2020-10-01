@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, Image } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, Dimensions, ScrollView } from 'react-native';
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
 import MainButton from '../components/MainButton';
@@ -7,22 +7,21 @@ import Colors from '../constants/colors';
 
 const GameOverScreen = ({ rounds, userNumber, onRestart }) => {
     return (
-        <View style={styles.screen}>
-            <TitleText>Game over</TitleText>
-            <View style={styles.imageContainer}>
-                <Image style={styles.image} source={require('../assets/success.png')} resizeMode="cover" />
-                {/* <Image style={styles.image} source={{ uri: 'https://i.imgur.com/XithH4r.jpeg' }} resizeMode="cover" /> */}
+        <ScrollView>
+            <View style={styles.screen}>
+                <TitleText>Game over</TitleText>
+                <View style={styles.imageContainer}>
+                    <Image style={styles.image} source={require('../assets/success.png')} resizeMode="cover" />
+                </View>
+                <View style={styles.resultContainer}>
+                    <BodyText style={styles.resultText}>
+                        Computer needed <Text style={styles.highlight}>{rounds}</Text> rounds to guess the number{' '}
+                        <Text style={styles.highlight}>{userNumber}</Text>
+                    </BodyText>
+                </View>
+                <MainButton onPress={onRestart}>Restart</MainButton>
             </View>
-            <View style={styles.resultContainer}>
-                <BodyText style={styles.resultText}>
-                    Computer needed <Text style={styles.highlight}>{rounds}</Text> rounds to guess the number{' '}
-                    <Text style={styles.highlight}>{userNumber}</Text>
-                </BodyText>
-            </View>
-            {/* <BodyText>Number was: {userNumber}</BodyText> */}
-            {/* <Button title="Restart" onPress={onRestart} /> */}
-            <MainButton onPress={onRestart}>Restart</MainButton>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -33,27 +32,28 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        paddingVertical: 10,
     },
     imageContainer: {
-        borderRadius: 150,
-        width: 300,
-        height: 300,
+        borderRadius: (Dimensions.get('window').width * 0.7) / 2,
+        width: Dimensions.get('window').width * 0.7,
+        height: Dimensions.get('window').width * 0.7,
         borderColor: 'black',
         borderWidth: 3,
         overflow: 'hidden',
-        marginVertical: 30,
+        marginVertical: Dimensions.get('window').height / 30,
     },
     image: {
         width: '100%',
         height: '100%',
     },
     resultContainer: {
-        marginVertical: 20,
+        marginVertical: Dimensions.get('window').height / 60,
         width: '80%',
     },
     resultText: {
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: Dimensions.get('window').height < 400 ? 16 : 20,
     },
     highlight: {
         color: Colors.primary,
